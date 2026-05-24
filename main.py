@@ -9,7 +9,7 @@ Usage:
 import sys
 import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '语法分析器'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'syntax_analyzer'))
 
 from lexer import Lexer, LexerError
 from parser import Parser, ParserError
@@ -48,9 +48,9 @@ def main():
         source = f.read()
 
     if show_tree:
-        # 树模式：使用 语法分析器 的词法 + LL(1) + 语义分析
+        # 树模式：使用 syntax_analyzer 的词法 + LL(1) + 语义分析
         print("=" * 50)
-        print("【语法分析器】词法 + LL(1) 语法 + 语义分析")
+        print("【syntax_analyzer】词法 + LL(1) 语法 + 语义分析")
         print("=" * 50)
         try:
             run_syntax_analysis(source)
