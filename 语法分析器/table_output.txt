@@ -1,0 +1,238 @@
+【语法分析过程】
+==================================================
+推导 PROGRAM → STRUCT_LIST FUNC_LIST
+推导 STRUCT_LIST → STRUCT_DEF STRUCT_LIST
+推导 STRUCT_DEF → struct id { MEMBER_LIST } ;
+匹配 struct
+匹配 id
+匹配 {
+推导 MEMBER_LIST → MEMBER MEMBER_LIST
+推导 MEMBER → TYPE STAR id ;
+推导 TYPE → char
+匹配 char
+推导 STAR → *
+匹配 *
+匹配 id
+匹配 ;
+推导 MEMBER_LIST → MEMBER MEMBER_LIST
+推导 MEMBER → TYPE STAR id ;
+推导 TYPE → int
+匹配 int
+推导 STAR → ε
+匹配 id
+匹配 ;
+推导 MEMBER_LIST → MEMBER MEMBER_LIST
+推导 MEMBER → TYPE STAR id ;
+推导 TYPE → int
+匹配 int
+推导 STAR → ε
+匹配 id
+匹配 ;
+推导 MEMBER_LIST → MEMBER MEMBER_LIST
+推导 MEMBER → TYPE STAR id ;
+推导 TYPE → float
+匹配 float
+推导 STAR → ε
+匹配 id
+匹配 ;
+推导 MEMBER_LIST → ε
+匹配 }
+匹配 ;
+推导 STRUCT_LIST → ε
+推导 FUNC_LIST → FUNC FUNC_LIST
+推导 FUNC → void main ( ) BLOCK
+匹配 void
+匹配 main
+匹配 (
+匹配 )
+推导 BLOCK → { STMT_LIST }
+匹配 {
+推导 STMT_LIST → STMT STMT_LIST
+推导 STMT → DEC_STMT
+推导 DEC_STMT → BASE_DEC
+推导 BASE_DEC → TYPE DEC_LIST ;
+推导 TYPE → int
+匹配 int
+推导 DEC_LIST → DEC_ITEM DEC_TAIL
+推导 DEC_ITEM → STAR id ARRAY_OPT INIT_OPT
+推导 STAR → ε
+匹配 id
+推导 ARRAY_OPT → ε
+推导 INIT_OPT → ε
+推导 DEC_TAIL → , DEC_LIST
+匹配 ,
+推导 DEC_LIST → DEC_ITEM DEC_TAIL
+推导 DEC_ITEM → STAR id ARRAY_OPT INIT_OPT
+推导 STAR → ε
+匹配 id
+推导 ARRAY_OPT → ε
+推导 INIT_OPT → = INIT_VALUE
+匹配 =
+推导 INIT_VALUE → EXPR
+推导 EXPR → TERM EXPR_TAIL
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → num
+匹配 num
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → ε
+推导 DEC_TAIL → ε
+匹配 ;
+推导 STMT_LIST → STMT STMT_LIST
+推导 STMT → DEC_STMT
+推导 DEC_STMT → BASE_DEC
+推导 BASE_DEC → TYPE DEC_LIST ;
+推导 TYPE → float
+匹配 float
+推导 DEC_LIST → DEC_ITEM DEC_TAIL
+推导 DEC_ITEM → STAR id ARRAY_OPT INIT_OPT
+推导 STAR → ε
+匹配 id
+推导 ARRAY_OPT → ε
+推导 INIT_OPT → = INIT_VALUE
+匹配 =
+推导 INIT_VALUE → EXPR
+推导 EXPR → TERM EXPR_TAIL
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → num
+匹配 num
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → ε
+推导 DEC_TAIL → ε
+匹配 ;
+推导 STMT_LIST → STMT STMT_LIST
+推导 STMT → DEC_STMT
+推导 DEC_STMT → STRUCT_DEC
+推导 STRUCT_DEC → STRUCT_ID DEC_LIST ;
+推导 STRUCT_ID → id
+匹配 id
+推导 DEC_LIST → DEC_ITEM DEC_TAIL
+推导 DEC_ITEM → STAR id ARRAY_OPT INIT_OPT
+推导 STAR → ε
+匹配 id
+推导 ARRAY_OPT → [ num ]
+匹配 [
+匹配 num
+匹配 ]
+推导 INIT_OPT → = INIT_VALUE
+匹配 =
+推导 INIT_VALUE → INIT_LIST
+推导 INIT_LIST → { INIT_ITEM_LIST }
+匹配 {
+推导 INIT_ITEM_LIST → INIT_ITEM INIT_ITEM_TAIL
+推导 INIT_ITEM → INIT_LIST
+推导 INIT_LIST → { INIT_ITEM_LIST }
+匹配 {
+推导 INIT_ITEM_LIST → INIT_ITEM INIT_ITEM_TAIL
+推导 INIT_ITEM → EXPR
+推导 EXPR → TERM EXPR_TAIL
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → str
+匹配 str
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → ε
+推导 INIT_ITEM_TAIL → , INIT_ITEM INIT_ITEM_TAIL
+匹配 ,
+推导 INIT_ITEM → EXPR
+推导 EXPR → TERM EXPR_TAIL
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → num
+匹配 num
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → ε
+推导 INIT_ITEM_TAIL → , INIT_ITEM INIT_ITEM_TAIL
+匹配 ,
+推导 INIT_ITEM → EXPR
+推导 EXPR → TERM EXPR_TAIL
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → num
+匹配 num
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → ε
+推导 INIT_ITEM_TAIL → , INIT_ITEM INIT_ITEM_TAIL
+匹配 ,
+推导 INIT_ITEM → EXPR
+推导 EXPR → TERM EXPR_TAIL
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → float
+匹配 float
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → ε
+推导 INIT_ITEM_TAIL → ε
+匹配 }
+推导 INIT_ITEM_TAIL → , INIT_ITEM INIT_ITEM_TAIL
+匹配 ,
+推导 INIT_ITEM → INIT_LIST
+推导 INIT_LIST → { INIT_ITEM_LIST }
+匹配 {
+推导 INIT_ITEM_LIST → INIT_ITEM INIT_ITEM_TAIL
+推导 INIT_ITEM → EXPR
+推导 EXPR → TERM EXPR_TAIL
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → str
+匹配 str
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → ε
+推导 INIT_ITEM_TAIL → , INIT_ITEM INIT_ITEM_TAIL
+匹配 ,
+推导 INIT_ITEM → EXPR
+推导 EXPR → TERM EXPR_TAIL
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → num
+匹配 num
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → ε
+推导 INIT_ITEM_TAIL → , INIT_ITEM INIT_ITEM_TAIL
+匹配 ,
+推导 INIT_ITEM → EXPR
+推导 EXPR → TERM EXPR_TAIL
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → num
+匹配 num
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → ε
+推导 INIT_ITEM_TAIL → , INIT_ITEM INIT_ITEM_TAIL
+匹配 ,
+推导 INIT_ITEM → EXPR
+推导 EXPR → TERM EXPR_TAIL
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → float
+匹配 float
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → ε
+推导 INIT_ITEM_TAIL → ε
+匹配 }
+推导 INIT_ITEM_TAIL → ε
+匹配 }
+推导 DEC_TAIL → ε
+匹配 ;
+推导 STMT_LIST → STMT STMT_LIST
+推导 STMT → IF_STMT
+推导 IF_STMT → if ( EXPR ) STMT ELSE_OPT
+匹配 if
+匹配 (
+推导 EXPR → TERM EXPR_TAIL
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → LVALUE
+推导 LVALUE → id LVALUE_SUFFIX
+匹配 id
+推导 LVALUE_SUFFIX → [ num ] . id
+匹配 [
+匹配 num
+匹配 ]
+匹配 .
+匹配 id
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → < TERM EXPR_TAIL
+匹配 <
+推导 TERM → FACTOR TERM_TAIL
+推导 FACTOR → num
+匹配 num
+推导 TERM_TAIL → ε
+推导 EXPR_TAIL → ε
+匹配 )
+推导 STMT → DEC_STMT
+推导 DEC_STMT → STRUCT_DEC
+推导 STRUCT_DEC → STRUCT_ID DEC_LIST ;
+推导 STRUCT_ID → id
+匹配 id
+❌ 语法错误：DEC_LIST 无法匹配 =
