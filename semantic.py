@@ -2,7 +2,7 @@ from tac import TACInstr, TACOp
 from ast_nodes import (
     Program, FuncDef, Block, VarDecl, Assign, BinaryOp, UnaryOp,
     Identifier, IntegerLit, FloatLit, CharLit, StringLit,
-    IfStmt, WhileStmt, ForStmt, CallStmt, ReturnStmt, EmptyStmt
+    IfStmt, WhileStmt, ForStmt, CallStmt, ReturnStmt, EmptyStmt,
 )
 
 

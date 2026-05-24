@@ -22,7 +22,7 @@ __float1: .long 1075838976
 main:
     push rbp
     mov rbp, rsp
-    sub rsp, 168
+    sub rsp, 160
     lea rdi, [rip + str0]
     xor eax, eax
     call printf

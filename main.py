@@ -7,10 +7,17 @@ Usage: python main.py <source.c> [-o output.asm] [--debug]
 import sys
 import os
 
+import sys
+import os
+
+# 添加 语法分析器 目录到搜索路径
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '语法分析器'))
+
 from lexer import Lexer, LexerError
 from parser import Parser, ParserError
 from semantic import SemanticAnalyzer, SemanticError
 from codegen import CodeGenerator
+from compiler import run_syntax_analysis
 
 
 def main():
@@ -22,6 +29,7 @@ def main():
     source_file = args[0]
     output_file = None
     debug = False
+    show_tree = False
 
     i = 1
     while i < len(args):
@@ -30,6 +38,9 @@ def main():
             i += 2
         elif args[i] == '--debug':
             debug = True
+            i += 1
+        elif args[i] == '--tree':
+            show_tree = True
             i += 1
         else:
             i += 1
@@ -64,6 +75,10 @@ def main():
     except ParserError as e:
         print(f"Parser error: {e}", file=sys.stderr)
         sys.exit(1)
+
+    if show_tree:
+        # 使用语法分析器的词法+LL(1)语法+语义分析输出
+        run_syntax_analysis(source)
 
     if debug:
         print(f"  AST: {ast}")

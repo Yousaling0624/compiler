@@ -190,6 +190,9 @@ class Lexer:
             '}': TokenType.RBRACE,
             ';': TokenType.SEMICOLON,
             ',': TokenType.COMMA,
+            '.': TokenType.DOT,
+            '[': TokenType.LBRACKET,
+            ']': TokenType.RBRACKET,
         }
         if ch in single_map:
             self.advance()

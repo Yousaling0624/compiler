@@ -1,22 +1,24 @@
-section .data
-    str0 db "Enter a number: ", 0
-    str1 db "%d", 0
-    str2 db "Factorial: %d\n", 0
+.intel_syntax noprefix
+.section .data
+str0: .asciz "Enter a number: "
+str1: .asciz "%d"
+str2: .asciz "Factorial: %d\n"
 
-section .text
-    extern printf, scanf
+.section .text
+.extern printf
+.extern scanf
 
-global main
+.globl main
 main:
     push rbp
     mov rbp, rsp
-    sub rsp, 72
-    lea rdi, [str0]
+    sub rsp, 64
+    lea rdi, [rip + str0]
     xor eax, eax
     call printf
     lea rax, [rbp - 24]
     mov [rbp - 32], rax
-    lea rdi, [str1]
+    lea rdi, [rip + str1]
     mov rsi, [rbp - 32]
     xor eax, eax
     call scanf
@@ -45,7 +47,7 @@ L0:
     mov [rbp - 16], rax
     jmp L0
 L1:
-    lea rdi, [str2]
+    lea rdi, [rip + str2]
     mov rsi, [rbp - 8]
     xor eax, eax
     call printf

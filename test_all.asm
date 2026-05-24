@@ -1,50 +1,52 @@
-section .data
-    str0 db "Enter a: ", 0
-    str1 db "%d", 0
-    str10 db "a == b\n", 0
-    str11 db "Both positive\n", 0
-    str12 db "At least one negative\n", 0
-    str13 db "While loop: ", 0
-    str14 db "%d ", 0
-    str15 db "\n", 0
-    str16 db "For loop: ", 0
-    str17 db "%d ", 0
-    str18 db "\n", 0
-    str19 db "Float computation done.\n", 0
-    str2 db "Enter b: ", 0
-    str3 db "%d", 0
-    str4 db "Sum: %d\n", 0
-    str5 db "Product: %d\n", 0
-    str6 db "Division: %d\n", 0
-    str7 db "Modulo: %d\n", 0
-    str8 db "a > b\n", 0
-    str9 db "a < b\n", 0
-    __float0 dd 1069547520
-    __float1 dd 1075838976
+.intel_syntax noprefix
+.section .data
+str0: .asciz "Enter a: "
+str1: .asciz "%d"
+str10: .asciz "a == b\n"
+str11: .asciz "Both positive\n"
+str12: .asciz "At least one negative\n"
+str13: .asciz "While loop: "
+str14: .asciz "%d "
+str15: .asciz "\n"
+str16: .asciz "For loop: "
+str17: .asciz "%d "
+str18: .asciz "\n"
+str19: .asciz "Float computation done.\n"
+str2: .asciz "Enter b: "
+str3: .asciz "%d"
+str4: .asciz "Sum: %d\n"
+str5: .asciz "Product: %d\n"
+str6: .asciz "Division: %d\n"
+str7: .asciz "Modulo: %d\n"
+str8: .asciz "a > b\n"
+str9: .asciz "a < b\n"
+__float0: .long 1069547520
+__float1: .long 1075838976
 
-section .text
-    extern printf, scanf
+.section .text
+.extern printf
+.extern scanf
 
-global main
+.globl main
 main:
     push rbp
     mov rbp, rsp
-    sub rsp, 232
-    lea rdi, [str0]
+    sub rsp, 224
+    lea rdi, [rip + str0]
     xor eax, eax
     call printf
     lea rax, [rbp - 8]
     mov [rbp - 88], rax
-    lea rdi, [str1]
+    lea rdi, [rip + str1]
     mov rsi, [rbp - 88]
     xor eax, eax
     call scanf
-    lea rdi, [str2]
+    lea rdi, [rip + str2]
     xor eax, eax
     call printf
     lea rax, [rbp - 16]
     mov [rbp - 96], rax
-    lea rdi, [str3]
+    lea rdi, [rip + str3]
     mov rsi, [rbp - 96]
     xor eax, eax
     call scanf
@@ -74,19 +76,19 @@ main:
     mov [rbp - 184], rdx
     mov rax, [rbp - 184]
     mov [rbp - 64], rax
-    lea rdi, [str4]
+    lea rdi, [rip + str4]
     mov rsi, [rbp - 80]
     xor eax, eax
     call printf
-    lea rdi, [str5]
+    lea rdi, [rip + str5]
     mov rsi, [rbp - 72]
     xor eax, eax
     call printf
-    lea rdi, [str6]
+    lea rdi, [rip + str6]
     mov rsi, [rbp - 24]
     xor eax, eax
     call printf
-    lea rdi, [str7]
+    lea rdi, [rip + str7]
     mov rsi, [rbp - 64]
     xor eax, eax
     call printf
@@ -98,7 +100,7 @@ main:
     mov rax, [rbp - 192]
     cmp rax, 0
     je L0
-    lea rdi, [str8]
+    lea rdi, [rip + str8]
     xor eax, eax
     call printf
     jmp L1
@@ -111,12 +113,12 @@ L0:
     mov rax, [rbp - 200]
     cmp rax, 0
     je L2
-    lea rdi, [str9]
+    lea rdi, [rip + str9]
     xor eax, eax
     call printf
     jmp L3
 L2:
-    lea rdi, [str10]
+    lea rdi, [rip + str10]
     xor eax, eax
     call printf
 L3:
@@ -137,7 +139,7 @@ L1:
     mov rax, [rbp - 216]
     cmp rax, 0
     je L4
-    lea rdi, [str11]
+    lea rdi, [rip + str11]
     xor eax, eax
     call printf
 L4:
@@ -158,11 +160,11 @@ L4:
     cmp rax, 0
     je L5
 L6:
-    lea rdi, [str12]
+    lea rdi, [rip + str12]
     xor eax, eax
     call printf
 L5:
-    lea rdi, [str13]
+    lea rdi, [rip + str13]
     xor eax, eax
     call printf
     mov rax, 0
@@ -176,7 +178,7 @@ L7:
     mov rax, [rbp - 120]
     cmp rax, 0
     je L8
-    lea rdi, [str14]
+    lea rdi, [rip + str14]
     mov rsi, [rbp - 56]
     xor eax, eax
     call printf
@@ -187,10 +189,10 @@ L7:
     mov [rbp - 56], rax
     jmp L7
 L8:
-    lea rdi, [str15]
+    lea rdi, [rip + str15]
     xor eax, eax
     call printf
-    lea rdi, [str16]
+    lea rdi, [rip + str16]
     xor eax, eax
     call printf
     mov rax, 10
@@ -204,7 +206,7 @@ L9:
     mov rax, [rbp - 136]
     cmp rax, 0
     je L10
-    lea rdi, [str17]
+    lea rdi, [rip + str17]
     mov rsi, [rbp - 56]
     xor eax, eax
     call printf
@@ -215,19 +217,19 @@ L9:
     mov [rbp - 56], rax
     jmp L9
 L10:
-    lea rdi, [str18]
+    lea rdi, [rip + str18]
     xor eax, eax
     call printf
-    movss xmm0, [rel __float0]
+    movss xmm0, [rip + __float0]
     movss [rbp - 32], xmm0
-    movss xmm0, [rel __float1]
+    movss xmm0, [rip + __float1]
     movss [rbp - 40], xmm0
     movss xmm0, [rbp - 32]
     mulss xmm0, [rbp - 40]
     movss [rbp - 152], xmm0
     movss xmm0, [rbp - 152]
     movss [rbp - 48], xmm0
-    lea rdi, [str19]
+    lea rdi, [rip + str19]
     xor eax, eax
     call printf
     mov rax, 0

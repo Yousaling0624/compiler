@@ -1,0 +1,44 @@
+Program (入口点)
+  FuncDef (函数定义)
+    返回类型: int
+    函数名: main
+    参数: [void]
+    函数体:
+      Block (语句块)
+        VarDecl (变量声明): int x
+        Assign (赋值)
+          左值:
+            ID (标识符): x
+          右值 (表达式):
+            Int (整型字面量): 10
+        IfStmt (条件分支)
+          条件:
+            BinaryOp (二元运算): [大于]
+              左操作数:
+                ID (标识符): x
+              右操作数:
+                Int (整型字面量): 0
+          then 分支:
+            Block (语句块)
+              CallStmt (函数调用): printf
+                参数0:
+                  Str (字符串字面量): "positive
+"
+          else 分支:
+            Block (语句块)
+              IfStmt (条件分支)
+                条件:
+                  BinaryOp (二元运算): [小于]
+                    左操作数:
+                      ID (标识符): x
+                    右操作数:
+                      Int (整型字面量): 0
+                then 分支:
+                  CallStmt (函数调用): printf
+                    参数0:
+                      Str (字符串字面量): "negative
+"
+        Return (返回)
+          返回值:
+            Int (整型字面量): 0
+Assembly written to group5_if_else_if.asm

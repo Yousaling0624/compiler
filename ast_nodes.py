@@ -158,3 +158,23 @@ class ReturnStmt(ASTNode):
 class EmptyStmt(ASTNode):
     def __repr__(self):
         return "Empty"
+
+
+class MemberAccess(ASTNode):
+    """Access a struct member: object.member"""
+    def __init__(self, object, member):
+        self.object = object    # Expression (the struct)
+        self.member = member    # str (member name)
+
+    def __repr__(self):
+        return f"MemberAccess({self.object}, {self.member})"
+
+
+class ArrayAccess(ASTNode):
+    """Access array element: array[index]"""
+    def __init__(self, array, index):
+        self.array = array    # Expression (the array)
+        self.index = index    # Expression (the index)
+
+    def __repr__(self):
+        return f"ArrayAccess({self.array}, {self.index})"

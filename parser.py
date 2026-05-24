@@ -2,7 +2,8 @@ from tokens import TokenType
 from ast_nodes import (
     Program, FuncDef, Block, VarDecl, Assign, BinaryOp, UnaryOp,
     Identifier, IntegerLit, FloatLit, CharLit, StringLit,
-    IfStmt, WhileStmt, ForStmt, CallStmt, ReturnStmt, EmptyStmt
+    IfStmt, WhileStmt, ForStmt, CallStmt, ReturnStmt, EmptyStmt,
+    MemberAccess, ArrayAccess
 )
 
 
@@ -97,6 +98,11 @@ class Parser:
     def parse_var_decl(self):
         var_type = self.parse_type()
         name = self.expect(TokenType.ID).value
+        # Array declaration: name[size]
+        array_size = None
+        if self.match(TokenType.LBRACKET):
+            array_size = self.expect(TokenType.INT_LIT).value
+            self.expect(TokenType.RBRACKET)
         init = None
         if self.match(TokenType.ASSIGN):
             init = self.parse_expression()
@@ -267,18 +273,18 @@ class Parser:
         return self.parse_primary()
 
     def parse_primary(self):
+        node = None
         if self.match(TokenType.INT_LIT):
-            return IntegerLit(self.tokens[self.pos - 1].value)
+            node = IntegerLit(self.tokens[self.pos - 1].value)
         elif self.match(TokenType.FLOAT_LIT):
-            return FloatLit(self.tokens[self.pos - 1].value)
+            node = FloatLit(self.tokens[self.pos - 1].value)
         elif self.match(TokenType.CHAR_LIT):
-            return CharLit(self.tokens[self.pos - 1].value)
+            node = CharLit(self.tokens[self.pos - 1].value)
         elif self.match(TokenType.STRING_LIT):
-            return StringLit(self.tokens[self.pos - 1].value)
+            node = StringLit(self.tokens[self.pos - 1].value)
         elif self.match(TokenType.LPAREN):
-            expr = self.parse_expression()
+            node = self.parse_expression()
             self.expect(TokenType.RPAREN)
-            return expr
         elif self.current.type == TokenType.ID:
             name = self.current.value
             self.advance()
@@ -286,9 +292,24 @@ class Parser:
             if self.match(TokenType.LPAREN):
                 args = self.parse_args()
                 self.expect(TokenType.RPAREN)
-                return CallStmt(name, args)
-            return Identifier(name)
-        raise ParserError(f"Unexpected token in expression: {self.current.type}", self.current)
+                node = CallStmt(name, args)
+            else:
+                node = Identifier(name)
+        else:
+            raise ParserError(f"Unexpected token in expression: {self.current.type}", self.current)
+
+        # Postfix operations: .member and [index]
+        while node is not None:
+            if self.match(TokenType.DOT):
+                member = self.expect(TokenType.ID).value
+                node = MemberAccess(node, member)
+            elif self.match(TokenType.LBRACKET):
+                index = self.parse_expression()
+                self.expect(TokenType.RBRACKET)
+                node = ArrayAccess(node, index)
+            else:
+                break
+        return node
 
     def parse_args(self):
         args = []

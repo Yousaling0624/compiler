@@ -486,6 +486,22 @@ PRIMARY -> id | num | str_lit | ( COND_EXPR )
 EXPR -> COND_EXPR
 """
 
+def run_syntax_analysis(source_code: str):
+    """运行词法+语法+语义分析，返回分析结果"""
+    print("===== 1/4 词法分析 =====", flush=True)
+    lexer = MainController()
+    lexer.load_source(input_type="string", source_str=source_code)
+    lexer.run_lexical_analysis()
+    print("\n===== 2/4 语法分析 =====", flush=True)
+    grammar = Grammar(grammar_str)
+    parser = DynamicLL1Parser(grammar, lexer.result_handler.token_list)
+    parser.run()
+    print(" 语法分析完成！")
+    print("\n===== 3/4 语义分析 & 中间代码 =====", flush=True)
+    sa = SemanticAnalyzer(parser)
+    sa.analyze()
+    print("\n 运行完毕！")
+
 def main():
     print("===== 1/4 词法分析 =====", flush=True)
     lexer = MainController()

@@ -1,22 +1,24 @@
-section .data
-    str0 db "Division: %d\n", 0
-    str1 db "Modulo: %d\n", 0
-    str2 db "Flag is true\n", 0
-    str3 db "Wont print\n", 0
-    str4 db "Not flag\n", 0
-    str5 db "Both positive\n", 0
-    str6 db "At least one condition\n", 0
-    str7 db "Negation: %d\n", 0
-    str8 db "Nested if: a negative, b positive\n", 0
+.intel_syntax noprefix
+.section .data
+str0: .asciz "Division: %d\n"
+str1: .asciz "Modulo: %d\n"
+str2: .asciz "Flag is true\n"
+str3: .asciz "Wont print\n"
+str4: .asciz "Not flag\n"
+str5: .asciz "Both positive\n"
+str6: .asciz "At least one condition\n"
+str7: .asciz "Negation: %d\n"
+str8: .asciz "Nested if: a negative, b positive\n"
 
-section .text
-    extern printf, scanf
+.section .text
+.extern printf
+.extern scanf
 
-global main
+.globl main
 main:
     push rbp
     mov rbp, rsp
-    sub rsp, 136
+    sub rsp, 128
     mov rax, 10
     mov [rbp - 8], rax
     mov rax, 3
@@ -29,7 +31,7 @@ main:
     mov [rbp - 40], rax
     mov rax, [rbp - 40]
     mov [rbp - 32], rax
-    lea rdi, [str0]
+    lea rdi, [rip + str0]
     mov rsi, [rbp - 32]
     xor eax, eax
     call printf
@@ -41,7 +43,7 @@ main:
     mov [rbp - 48], rdx
     mov rax, [rbp - 48]
     mov [rbp - 32], rax
-    lea rdi, [str1]
+    lea rdi, [rip + str1]
     mov rsi, [rbp - 32]
     xor eax, eax
     call printf
@@ -50,7 +52,7 @@ main:
     mov rax, [rbp - 24]
     cmp rax, 0
     je L0
-    lea rdi, [str2]
+    lea rdi, [rip + str2]
     xor eax, eax
     call printf
 L0:
@@ -62,12 +64,12 @@ L0:
     mov rax, [rbp - 64]
     cmp rax, 0
     je L1
-    lea rdi, [str3]
+    lea rdi, [rip + str3]
     xor eax, eax
     call printf
     jmp L2
 L1:
-    lea rdi, [str4]
+    lea rdi, [rip + str4]
     xor eax, eax
     call printf
 L2:
@@ -87,7 +89,7 @@ L2:
     mov rax, [rbp - 80]
     cmp rax, 0
     je L3
-    lea rdi, [str5]
+    lea rdi, [rip + str5]
     xor eax, eax
     call printf
 L3:
@@ -108,7 +110,7 @@ L3:
     cmp rax, 0
     je L4
 L5:
-    lea rdi, [str6]
+    lea rdi, [rip + str6]
     xor eax, eax
     call printf
 L4:
@@ -122,7 +124,7 @@ L4:
     mov [rbp - 112], rax
     mov rax, [rbp - 112]
     mov [rbp - 16], rax
-    lea rdi, [str7]
+    lea rdi, [rip + str7]
     mov rsi, [rbp - 16]
     xor eax, eax
     call printf
@@ -142,7 +144,7 @@ L4:
     mov rax, [rbp - 56]
     cmp rax, 0
     je L7
-    lea rdi, [str8]
+    lea rdi, [rip + str8]
     xor eax, eax
     call printf
 L7:
