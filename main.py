@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
-"""C-lang → x86-64 NASM Assembly Compiler
+"""C-lang → x86-64 GAS Assembly Compiler
 
-Usage: python main.py <source.c> [-o output.asm] [--debug]
+Usage:
+    python main.py <source.c> [-o output.asm] [--debug]   # 编译
+    python main.py <source.c> --tree                       # 语法树分析
 """
 
 import sys
 import os
 
-import sys
-import os
-
-# 添加 语法分析器 目录到搜索路径
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '语法分析器'))
 
 from lexer import Lexer, LexerError
@@ -24,6 +22,7 @@ def main():
     args = sys.argv[1:]
     if not args:
         print("Usage: python main.py <source.c> [-o output.asm] [--debug]")
+        print("       python main.py <source.c> --tree")
         sys.exit(1)
 
     source_file = args[0]
@@ -45,13 +44,21 @@ def main():
         else:
             i += 1
 
-    if output_file is None:
-        base = os.path.splitext(source_file)[0]
-        output_file = base + '.asm'
-
     with open(source_file, 'r') as f:
         source = f.read()
 
+    if show_tree:
+        # 树模式：使用 语法分析器 的词法 + LL(1) + 语义分析
+        print("=" * 50)
+        print("【语法分析器】词法 + LL(1) 语法 + 语义分析")
+        print("=" * 50)
+        try:
+            run_syntax_analysis(source)
+        except Exception as e:
+            print(f"  (语法分析器异常: {e})")
+        return  # 树模式不生成汇编
+
+    # 编译模式
     # Phase 1: Lexical analysis
     if debug:
         print("=== Phase 1: Lexical Analysis ===")
@@ -75,10 +82,6 @@ def main():
     except ParserError as e:
         print(f"Parser error: {e}", file=sys.stderr)
         sys.exit(1)
-
-    if show_tree:
-        # 使用语法分析器的词法+LL(1)语法+语义分析输出
-        run_syntax_analysis(source)
 
     if debug:
         print(f"  AST: {ast}")

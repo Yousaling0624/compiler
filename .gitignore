@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Compiled assembly
+*.o
+*.out
+
+# Executables
+test
+test2
+test3
+test_all
+exam1
+examples/group0_for_if_else
+examples/group1_if_while_else
+examples/group2_while_for
+examples/group3_if_for_else
+examples/group4_if_else_for
+examples/group5_if_else_if
+
+# Temp files
+/tmp/
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Lock files
+.~lock.*
+
+# Reference docs
+*.pdf
+*.pptx
